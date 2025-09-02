@@ -5,9 +5,7 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 import string
 
-# --------------------------------
 # Download required NLTK resources (run once)
-# --------------------------------
 nltk.download('punkt')
 nltk.download('stopwords')
 
@@ -27,30 +25,26 @@ def transform_text(text):
     return " ".join(y)
 
 
-# --------------------------------
+
 # Load trained vectorizer & model
-# --------------------------------
 try:
     tfidf = pickle.load(open('vectorizer.pkl','rb'))
     model = pickle.load(open('model.pkl','rb'))
 except FileNotFoundError:
-    st.error("❌ Model files not found! Please run the training script first.")
+    st.error(" Model files not found! Please run the training script first.")
     st.stop()
 except Exception as e:
-    st.error(f"⚠️ Error loading model files: {e}")
+    st.error(f" Error loading model files: {e}")
     st.stop()
 
-
-# --------------------------------
 # Streamlit UI
-# --------------------------------
 st.title('📧 Email / SMS Spam Classifier')
 
 input_sms = st.text_area("✍️ Enter the message here:")
 
 if st.button("Predict"):
     if input_sms.strip() == "":
-        st.warning("⚠️ Please enter a message to classify.")
+        st.warning(" Please enter a message to classify.")
     else:
         # 1. Preprocess
         transformed_sms = transform_text(input_sms)
@@ -63,6 +57,6 @@ if st.button("Predict"):
 
         # 4. Display
         if result == 1:
-            st.error("🚨 Spam Message Detected!")
+            st.error(" Spam Message Detected!")
         else:
-            st.success("✅ This is Not Spam")
+            st.success(" This is Not Spam")
